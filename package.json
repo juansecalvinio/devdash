@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "npm run lint:fix && npm run start",
     "build": "react-scripts build",
     "test": "jest --watch --config=jest.config.js",
     "eject": "react-scripts eject",
@@ -49,6 +50,8 @@
           "testing-library/await-async-query": 0,
           "@typescript-eslint/no-unsafe-member-access": 0,
           "@typescript-eslint/no-unsafe-call": 0,
+          "@typescript-eslint/no-explicit-any": 0,
+          "@typescript-eslint/no-floating-promises": 0,
           "testing-library/prefer-screen-queries": 0
         }
       }
@@ -80,6 +83,7 @@
     "cypress": "^10.3.0",
     "eslint-config-codely": "^2.1.3",
     "identity-obj-proxy": "^3.0.0",
+    "jest-svg-transformer": "^1.0.0",
     "jest-transform-stub": "^2.0.0",
     "sass": "^1.57.1",
     "stylelint": "^14.16.1",

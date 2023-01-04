@@ -1,17 +1,8 @@
-import { UserCard } from "./sections/users/UserCard";
-import { useUsers } from "./sections/users/useUsers";
+// El named export es buena práctica para que se mantenga
+// el mismo nombre de lo que exportamos
+// Si fuese un export default el import podría tener cualquier nombre
+import { Dashboard } from "./sections/dashboard/Dashboard";
 
 export function App() {
-	const users = useUsers();
-
-	return (
-		<div className="App">
-			<h3>🌱⚛️ Create React App Codely template example</h3>
-			<h2>Current users</h2>
-
-			{users.map((user) => (
-				<UserCard key={user.name} user={user} />
-			))}
-		</div>
-	);
+	return <Dashboard />;
 }
