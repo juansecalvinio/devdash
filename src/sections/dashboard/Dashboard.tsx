@@ -1,48 +1,17 @@
 import { useEffect, useState } from "react";
 
-import { ReactComponent as Brand } from "../../assets/img/brand.svg";
-import { ReactComponent as Check } from "../../assets/img/check.svg";
-import { ReactComponent as Error } from "../../assets/img/error.svg";
-import { ReactComponent as PullRequests } from "../../assets/img/git-pull-request.svg";
-import { ReactComponent as IssueOpened } from "../../assets/img/issue-opened.svg";
-import { ReactComponent as Lock } from "../../assets/img/lock.svg";
-import { ReactComponent as Forks } from "../../assets/img/repo-forked.svg";
-import { ReactComponent as Start } from "../../assets/img/star.svg";
-import { ReactComponent as Unlock } from "../../assets/img/unlock.svg";
-import { ReactComponent as Watchers } from "../../assets/img/watchers.svg";
 import { config } from "../../devdash_config";
-import { GitHubApiGitHubRepositoryRepository } from "../../infrastructure/GitHubApiGitHubRepositoryRepository";
-import { GitHubApiResponses } from "../../infrastructure/GitHubApiResponses";
+import { GitHubRepository } from "../../domain/GitHubRepository";
+import { GitHubRepositoryRepository } from "../../domain/GitHubRepositoryRepository";
+import { ReactComponent as Brand } from "./brand.svg";
 import styles from "./Dashboard.module.scss";
+import { GitHubRepositoryWidget } from "./GitHubRepositoryWidget";
+import { useGitHubRepositories } from "./useGitHubRepositories";
 
-const isoToReadableDate = (lastUpdate: string): string => {
-	const lastUpdateDate = new Date(lastUpdate);
-	const currentDate = new Date();
-	const diffDays = lastUpdateDate.getDate() - currentDate.getDate();
+const gitHubRepositoryUrls = config.widgets.map((widget) => widget.repository_url);
 
-	if (diffDays === 0) {
-		return "today";
-	}
-
-	if (diffDays > 30) {
-		return "more than a month ago";
-	}
-
-	return `${diffDays} days ago`;
-};
-
-export function Dashboard() {
-	const repository = new GitHubApiGitHubRepositoryRepository(config.github_access_token);
-	const [repositoryData, setRepositoryData] = useState<GitHubApiResponses[]>([]);
-
-	useEffect(() => {
-		repository
-			.search(config.widgets.map((widget) => widget.repository_url))
-			.then((repositoryData) => {
-				setRepositoryData(repositoryData);
-			})
-			.catch(() => setRepositoryData([]));
-	}, []);
+export function Dashboard({ repository }: { repository: GitHubRepositoryRepository }) {
+	const { repositoryData } = useGitHubRepositories(repository, gitHubRepositoryUrls);
 
 	return (
 		<>
@@ -52,61 +21,20 @@ export function Dashboard() {
 					<h1 className={styles.app__brand}>DevDash_</h1>
 				</section>
 			</header>
-			<section className={styles.container}>
-				{repositoryData.map((widget) => (
-					<article className={styles.widget} key={widget.repositoryData.id}>
-						<header className={styles.widget__header}>
-							<a
-								className={styles.widget__title}
-								href={widget.repositoryData.html_url}
-								target="_blank"
-								title={`${widget.repositoryData.organization.login}/${widget.repositoryData.name}`}
-								rel="noreferrer"
-							>
-								{widget.repositoryData.organization.login}/{widget.repositoryData.name}
-							</a>
-							{widget.repositoryData.private ? <Lock /> : <Unlock />}
-						</header>
-						<div className={styles.widget__body}>
-							<div className={styles.widget__status}>
-								<p>Last update {isoToReadableDate(widget.repositoryData.updated_at)}</p>
-								{widget.ciStatus.workflow_runs.length > 0 && (
-									<div>
-										{widget.ciStatus.workflow_runs[0].status === "completed" ? (
-											<Check />
-										) : (
-											<Error />
-										)}
-									</div>
-								)}
-							</div>
-							<p className={styles.widget__description}>{widget.repositoryData.description}</p>
-						</div>
-						<footer className={styles.widget__footer}>
-							<div className={styles.widget__stat}>
-								<Start />
-								<span>{widget.repositoryData.stargazers_count}</span>
-							</div>
-							<div className={styles.widget__stat}>
-								<Watchers />
-								<span>{widget.repositoryData.watchers_count}</span>
-							</div>
-							<div className={styles.widget__stat}>
-								<Forks />
-								<span>{widget.repositoryData.forks_count}</span>
-							</div>
-							<div className={styles.widget__stat}>
-								<IssueOpened />
-								<span>{widget.repositoryData.open_issues_count}</span>
-							</div>
-							<div className={styles.widget__stat}>
-								<PullRequests />
-								<span>{widget.pullRequests.length}</span>
-							</div>
-						</footer>
-					</article>
-				))}
-			</section>
+			{repositoryData.length === 0 ? (
+				<div className={styles.empty}>
+					<span>No hay widgets configurados.</span>
+				</div>
+			) : (
+				<section className={styles.container}>
+					{repositoryData.map((widget) => (
+						<GitHubRepositoryWidget
+							key={`${widget.id.organization}/${widget.id.name}`}
+							widget={widget}
+						/>
+					))}
+				</section>
+			)}
 		</>
 	);
 }
