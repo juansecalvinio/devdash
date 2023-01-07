@@ -7,7 +7,7 @@ export class GitHubRepositoryMother {
 		const defaultParams: GitHubRepository = {
 			id: {
 				organization: faker.company.name(),
-				name: faker.random.words(),
+				name: faker.random.word(),
 			},
 			description: faker.random.words(10),
 			url: faker.internet.url(),

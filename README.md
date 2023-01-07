@@ -5,30 +5,33 @@
 </p>
 
 <h1 align="center">
-  👋️ Create React App Codely template example
+  🎛️ DevDash 
 </h1>
 
 <p align="center">
-    <a href="https://github.com/${YOUR_ORG_SLUG}/${YOUR_REPO_SLUG}/actions/workflows/ci.yml"><img src="https://github.com/${YOUR_ORG_SLUG}/${YOUR_REPO_SLUG}/actions/workflows/ci.yml/badge.svg" alt="Build status"/></a>
+    <a href="https://github.com/CodelyTV/DevDash/actions/workflows/test.yml"><img src="https://github.com/CodelyTV/DevDash/actions/workflows/test.yml/badge.svg" alt="Build status"/></a>
     <a href="https://github.com/CodelyTV"><img src="https://img.shields.io/badge/CodelyTV-OS-green.svg?style=flat-square" alt="Codely Open Source"/></a>
     <a href="https://pro.codely.com"><img src="https://img.shields.io/badge/CodelyTV-PRO-black.svg?style=flat-square" alt="CodelyTV Courses"/></a>
+</p>
+
+<p align="center">
+  Developer dashboard focused on learning React appling best practices.
 </p>
 
 <p align="center">
   App created with the <a href="https://github.com/CodelyTV/cra-template-codely">🌱⚛️ Create React App Codely template</a> 
   <br />
   <br />
-  <a href="https://github.com/${YOUR_ORG_SLUG}/${YOUR_REPO_SLUG}/stargazers">Stars are welcome 😊</a>
+  <a href="https://github.com/CodelyTV/DevDash/stargazers">Stars are welcome 😊</a>
 </p>
 
 ## 🚀 Run the app
 
 - `npm install`: Install dependencies
-- `cp .env.example .env`: Create the environment variables file based on the example template
-- `vim .env`: Specify your GitHub Personal access token ([how to get it](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) -> [your tokens](https://github.com/settings/tokens) -> Enable `Repo.public_repo`)
-- `vim src/devdash_config.ts`: Set the repository URLs you want to show on your *DevDash_*
-- `npm start`: Run in dev mode on [localhost:3000](http://localhost:3000)
+  Keep in mind that once you create your app based on the [🌱⚛️ Create React App Codely template](https://github.com/CodelyTV/cra-template-codely), CRA will install all the needed dependencies. However, if you modify the `package.json` manually, you can run this command as usual
+- `npm run dev`: Run in dev mode on [localhost:3000](http://localhost:3000)
 - `npm run build`: Generate production build
+- `npm run start`: Run generated content in `dist` folder on [localhost:3000](http://localhost:3000)
 
 ## ✅ Testing
 
@@ -47,17 +50,6 @@
 
 - `npm run lint`: Run linter
 - `npm run lint:fix`: Fix lint issues
-
-## 🌈 Tech Stack
-
-- [TypeScript](https://www.typescriptlang.org)
-- [ESLint](https://eslint.org) and [Prettier](https://prettier.io) already configured with the [🤏 Codely's configuration](https://github.com/CodelyTV/eslint-config-codely)
-- [Jest](https://jestjs.io) with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro) for the unit tests
-- [Cypress](https://www.cypress.io) with [Testing Library](https://testing-library.com/docs/cypress-testing-library) for the end-to-end tests
-- [GitHub Action Workflows](https://github.com/features/actions) set up to run tests and linting on push
-- [Makefile](https://github.com/CodelyTV/cra-template-codely/blob/main/template/Makefile) for standardize how to run projects
-- [Sass](https://sass-lang.com) to supercharge CSS with nested classes and more fun
-- [.editorconfig](https://editorconfig.org) for sharing the IDE config
 
 ## 👌 Codely Code Quality Standards
 

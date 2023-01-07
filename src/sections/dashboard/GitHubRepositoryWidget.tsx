@@ -1,15 +1,15 @@
+import { Link } from "react-router-dom";
+
+import { ReactComponent as Check } from "../../assets/svgs/check.svg";
+import { ReactComponent as Error } from "../../assets/svgs/error.svg";
+import { ReactComponent as PullRequests } from "../../assets/svgs/git-pull-request.svg";
+import { ReactComponent as IssueOpened } from "../../assets/svgs/issue-opened.svg";
+import { ReactComponent as Lock } from "../../assets/svgs/lock.svg";
+import { ReactComponent as Forks } from "../../assets/svgs/repo-forked.svg";
+import { ReactComponent as Start } from "../../assets/svgs/star.svg";
+import { ReactComponent as Unlock } from "../../assets/svgs/unlock.svg";
+import { ReactComponent as Watchers } from "../../assets/svgs/watchers.svg";
 import { GitHubRepository } from "../../domain/GitHubRepository";
-
-import { ReactComponent as Check } from "./check.svg";
-import { ReactComponent as Error } from "./error.svg";
-import { ReactComponent as PullRequests } from "./git-pull-request.svg";
-import { ReactComponent as IssueOpened } from "./issue-opened.svg";
-import { ReactComponent as Lock } from "./lock.svg";
-import { ReactComponent as Forks } from "./repo-forked.svg";
-import { ReactComponent as Start } from "./star.svg";
-import { ReactComponent as Unlock } from "./unlock.svg";
-import { ReactComponent as Watchers } from "./watchers.svg";
-
 import styles from "./GitHubRepositoryWidget.module.scss";
 
 const isoToReadableDate = (lastUpdateDate: Date): string => {
@@ -28,49 +28,46 @@ const isoToReadableDate = (lastUpdateDate: Date): string => {
 	return `${diffDays} days ago`;
 };
 
-export function GitHubRepositoryWidget({ widget }: { widget: GitHubRepository }) {
+export function GitHubRepositoryWidget({ repository }: { repository: GitHubRepository }) {
 	return (
-		<article className={styles.widget} key={`${widget.id.organization}/${widget.id.name}`}>
+		<article className={styles.widget}>
 			<header className={styles.widget__header}>
 				<h2 className={styles.widget__title}>
-					<a
-						href={widget.url}
-						target="_blank"
-						title={`${widget.id.organization}/${widget.id.name}`}
-						rel="noreferrer"
-					>
-						{widget.id.organization}/{widget.id.name}
-					</a>
+					<Link to={`/repository/${repository.id.organization}/${repository.id.name}`}>
+						{repository.id.organization}/{repository.id.name}
+					</Link>
 				</h2>
-				{widget.private ? <Lock /> : <Unlock />}
+				{repository.private ? <Lock /> : <Unlock />}
 			</header>
 			<div className={styles.widget__body}>
 				<div className={styles.widget__status}>
-					<p>Last update {isoToReadableDate(widget.updatedAt)}</p>
-					{widget.hasWorkflows && <div>{widget.isLastWorkflowSuccess ? <Check /> : <Error />}</div>}
+					<p>Last update {isoToReadableDate(repository.updatedAt)}</p>
+					{repository.hasWorkflows && (
+						<div>{repository.isLastWorkflowSuccess ? <Check /> : <Error />}</div>
+					)}
 				</div>
-				<p className={styles.widget__description}>{widget.description}</p>
+				<p className={styles.widget__description}>{repository.description}</p>
 			</div>
 			<footer className={styles.widget__footer}>
 				<div className={styles.widget__stat}>
 					<Start />
-					<span>{widget.stars}</span>
+					<span>{repository.stars}</span>
 				</div>
 				<div className={styles.widget__stat}>
 					<Watchers />
-					<span>{widget.watchers}</span>
+					<span>{repository.watchers}</span>
 				</div>
 				<div className={styles.widget__stat}>
 					<Forks />
-					<span>{widget.forks}</span>
+					<span>{repository.forks}</span>
 				</div>
 				<div className={styles.widget__stat}>
 					<IssueOpened />
-					<span>{widget.issues}</span>
+					<span>{repository.issues}</span>
 				</div>
 				<div className={styles.widget__stat}>
 					<PullRequests />
-					<span>{widget.pullRequests}</span>
+					<span>{repository.pullRequests}</span>
 				</div>
 			</footer>
 		</article>

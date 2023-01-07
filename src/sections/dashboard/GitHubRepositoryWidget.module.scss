@@ -1,4 +1,3 @@
-
 .widget {
   display: flex;
   flex-direction: column;
@@ -21,7 +20,6 @@
   }
 
   &__title {
-    margin: 0;
     overflow: hidden;
     font-weight: bold;
     font-size: 0.875rem;
@@ -37,15 +35,6 @@
   &__body {
     flex: 1;
     padding: 0.5rem;
-  }
-
-  &__description {
-    display: box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
   }
 
   &__footer {
