@@ -1,20 +1,28 @@
 import React, { useState } from "react";
 
-import { ReactComponent as Add } from "../../assets/svgs/add.svg";
-import styles from "./AddWidgetForm.module.scss";
+import { ReactComponent as Add } from "../../../assets/svgs/add.svg";
+import { RepositoryWidgetRepository } from "../../../domain/RepositoryWidgetRepository";
+import { useAddRepositoryWidget } from "./useAddRepositoryWidget";
+import styles from "./AddRepositoryWidgetForm.module.scss";
 
-type AddWidgetSubmitFormEvent = React.FormEvent<HTMLFormElement> & {
-	target: { id: { value: string } };
-	url: { value: string };
+type FormEvent<T> = React.FormEvent<HTMLFormElement> & {
+	target: { elements: { [key in keyof T]: { value: T[key] } } };
 };
 
-export function AddWidgetForm() {
+type FormFields = { id: string; repositoryUrl: string };
+
+export function AddRepositoryWidgetForm({
+	repository,
+}: {
+	repository: RepositoryWidgetRepository;
+}) {
 	const [isFormActive, setIsFormActive] = useState(false);
+	const { save } = useAddRepositoryWidget(repository);
 
-	const submitForm = (ev: AddWidgetSubmitFormEvent) => {
+	const submitForm = async (ev: FormEvent<FormFields>) => {
 		ev.preventDefault();
-		// Save data
-
+		const { id, repositoryUrl } = ev.target.elements;
+		await save({ id: id.value, repositoryUrl: repositoryUrl.value });
 		setIsFormActive(false);
 	};
 
