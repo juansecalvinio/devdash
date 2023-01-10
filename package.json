@@ -25,6 +25,7 @@
 		"react-topbar-progress-indicator": "^4.1.1"
 	},
 	"scripts": {
+    "dev": "npm run lint:fix && npm run start",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "jest --watch --config=jest.config.js",
