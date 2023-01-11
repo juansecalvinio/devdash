@@ -3,11 +3,22 @@ import React from "react";
 import { config } from "../../devdash_config";
 import { GitHubApiGitHubRepositoryRepository } from "../../infrastructure/GitHubApiGitHubRepositoryRepository";
 import { Dashboard } from "./Dashboard";
+import { useRepositoryWidgetContext } from "./repositoryWidget/RepositoryWidgetContextProvider";
+import { LocalStorageRepositoryWidgetRepository } from "../../infrastructure/LocalStorageRepositoryWidgetRepository";
 
-const repository = new GitHubApiGitHubRepositoryRepository(config.github_access_token);
+const gitHubRepositoryRepository = new GitHubApiGitHubRepositoryRepository(
+	config.github_access_token
+);
 
-export class DashboardFactory {
-	static create(): React.ReactElement {
-		return <Dashboard repository={repository} />;
-	}
+const repositoryWidgetRepository = new LocalStorageRepositoryWidgetRepository();
+
+export function DashboardFactory() {
+	const { repositoryWidgets } = useRepositoryWidgetContext();
+	return (
+		<Dashboard
+			gitHubRepositoryRepository={gitHubRepositoryRepository}
+			repositoryWidgetRepository={repositoryWidgetRepository}
+			repositoryWidgets={repositoryWidgets}
+		/>
+	);
 }
