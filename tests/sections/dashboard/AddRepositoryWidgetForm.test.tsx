@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { mock } from "jest-mock-extended";
+import { RepositoryWidget } from "../../../src/domain/RepositoryWidget";
 import { LocalStorageRepositoryWidgetRepository } from "../../../src/infrastructure/LocalStorageRepositoryWidgetRepository";
 import { AddRepositoryWidgetForm } from "../../../src/sections/dashboard/repositoryWidget/AddRepositoryWidgetForm";
-import { RepositoryWidget } from "../../../src/domain/RepositoryWidget";
 
 const mockRepository = mock<LocalStorageRepositoryWidgetRepository>();
 
@@ -23,6 +23,8 @@ describe("AddWidgetForm", () => {
 	});
 
 	it("save new widget when form is submitted", async () => {
+		mockRepository.search.mockResolvedValue([]);
+
 		const newWidget: RepositoryWidget = {
 			id: "newWidgetId",
 			repositoryUrl: "https://github.com/CodelyTV/DevDash",
@@ -52,5 +54,49 @@ describe("AddWidgetForm", () => {
 
 		expect(addAnotherRepositoryFormButton).toBeInTheDocument();
 		expect(mockRepository.save).toHaveBeenCalledWith(newWidget);
+		mockRepository.save.mockReset();
+	});
+
+	it("show error when repository already exists in Dashboard", async () => {
+		const existingWidget: RepositoryWidget = {
+			id: "existingWidgetId",
+			repositoryUrl: "https://github.com/CodelyTV/DevDash",
+		};
+
+		mockRepository.search.mockResolvedValue([existingWidget]);
+
+		const newWidgetWithSameUrl: RepositoryWidget = {
+			id: "newWidgetId",
+			repositoryUrl: "https://github.com/CodelyTV/DevDash",
+		};
+
+		render(<AddRepositoryWidgetForm repository={mockRepository} />);
+
+		const button = await screen.findByRole("button", {
+			name: new RegExp("Añadir repositorio", "i"),
+		});
+
+		userEvent.click(button);
+
+		const id = screen.getByLabelText(/Id/i);
+
+		userEvent.type(id, newWidgetWithSameUrl.id);
+
+		const url = screen.getByLabelText(/Url del repositorio/i);
+
+		userEvent.type(url, newWidgetWithSameUrl.repositoryUrl);
+
+		const submitButton = await screen.findByRole("button", {
+			name: /Añadir/i,
+		});
+
+		userEvent.click(submitButton);
+
+		const errorMessage = await screen.findByRole("alert", {
+			description: /Repositorio duplicado/i,
+		});
+
+		expect(errorMessage).toBeInTheDocument();
+		expect(mockRepository.save).not.toHaveBeenCalled();
 	});
 });
