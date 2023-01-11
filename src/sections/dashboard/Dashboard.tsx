@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 
 import { GitHubRepositoryRepository } from "../../domain/GitHubRepositoryRepository";
+import { RepositoryWidget } from "../../domain/RepositoryWidget";
 import { RepositoryWidgetRepository } from "../../domain/RepositoryWidgetRepository";
 import styles from "./Dashboard.module.scss";
 import { GitHubRepositoryWidget } from "./gitHubRepositoryWidget/GitHubRepositoryWidget";
 import { useGitHubRepositories } from "./gitHubRepositoryWidget/useGitHubRepositories";
 import { AddRepositoryWidgetForm } from "./repositoryWidget/AddRepositoryWidgetForm";
 import { RepositoryWidgetsSkeleton } from "./repositoryWidget/RepositoryWidgetsSkeleton";
-import { RepositoryWidget } from "../../domain/RepositoryWidget";
 
 export function Dashboard({
 	gitHubRepositoryRepository,

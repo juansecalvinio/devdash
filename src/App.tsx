@@ -1,8 +1,8 @@
 import "react-loading-skeleton/dist/skeleton.css";
 
+import { LocalStorageRepositoryWidgetRepository } from "./infrastructure/LocalStorageRepositoryWidgetRepository";
 import { Router } from "./Router";
 import { RepositoryWidgetContextProvider } from "./sections/dashboard/repositoryWidget/RepositoryWidgetContextProvider";
-import { LocalStorageRepositoryWidgetRepository } from "./infrastructure/LocalStorageRepositoryWidgetRepository";
 
 const repository = new LocalStorageRepositoryWidgetRepository();
 

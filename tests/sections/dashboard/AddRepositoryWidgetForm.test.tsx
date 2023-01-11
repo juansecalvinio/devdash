@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { mock } from "jest-mock-extended";
+
 import { RepositoryWidget } from "../../../src/domain/RepositoryWidget";
 import { LocalStorageRepositoryWidgetRepository } from "../../../src/infrastructure/LocalStorageRepositoryWidgetRepository";
 import { AddRepositoryWidgetForm } from "../../../src/sections/dashboard/repositoryWidget/AddRepositoryWidgetForm";
@@ -23,6 +24,7 @@ describe("AddWidgetForm", () => {
 	});
 
 	it("save new widget when form is submitted", async () => {
+		const dispatchEventSpy = jest.spyOn(document, "dispatchEvent");
 		mockRepository.search.mockResolvedValue([]);
 
 		const newWidget: RepositoryWidget = {
@@ -54,10 +56,14 @@ describe("AddWidgetForm", () => {
 
 		expect(addAnotherRepositoryFormButton).toBeInTheDocument();
 		expect(mockRepository.save).toHaveBeenCalledWith(newWidget);
-		mockRepository.save.mockReset();
+
+		expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(Event));
+		expect(dispatchEventSpy.mock.calls[0][0].type).toBe("repositoryWidgetAdded");
 	});
 
 	it("show error when repository already exists in Dashboard", async () => {
+		mockRepository.save.mockReset();
+
 		const existingWidget: RepositoryWidget = {
 			id: "existingWidgetId",
 			repositoryUrl: "https://github.com/CodelyTV/DevDash",

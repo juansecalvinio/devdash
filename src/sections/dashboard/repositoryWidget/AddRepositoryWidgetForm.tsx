@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { ReactComponent as Add } from "../../../assets/svgs/add.svg";
 import { RepositoryWidgetRepository } from "../../../domain/RepositoryWidgetRepository";
-import { useAddRepositoryWidget } from "./useAddRepositoryWidget";
 import styles from "./AddRepositoryWidgetForm.module.scss";
+import { useAddRepositoryWidget } from "./useAddRepositoryWidget";
 
 type FormEvent<T> = React.FormEvent<HTMLFormElement> & {
 	target: { elements: { [key in keyof T]: { value: T[key] } } };

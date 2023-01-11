@@ -29,7 +29,19 @@ export function RepositoryWidgetContextProvider({
 
 			setRepositoryWidgets(repositoryWidgets);
 		});
-	}, []);
+	}, [repository]);
+
+	useEffect(() => {
+		const reloadRepositoryWidget = () => {
+			repository.search().then(setRepositoryWidgets);
+		};
+
+		document.addEventListener("repositoryWidgetAdded", reloadRepositoryWidget);
+
+		return () => {
+			document.removeEventListener("repositoryWidgetAdded", reloadRepositoryWidget);
+		};
+	}, [repository]);
 
 	return (
 		<RepositoryWidgetContext.Provider value={{ repositoryWidgets }}>
