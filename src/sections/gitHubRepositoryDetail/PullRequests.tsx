@@ -8,14 +8,14 @@ export function PullRequests({
 	repository,
 	repositoryId,
 }: {
-	repository: GitHubRepositoryPullRequestRepository;
 	repositoryId: RepositoryId;
+	repository: GitHubRepositoryPullRequestRepository;
 }) {
 	const { isLoading, pullRequests } = useGitHubRepositoryPullRequests(repository, repositoryId);
 
 	return (
 		<>
-			<h3>Pull Requests</h3>
+			<h3>Pull requests</h3>
 			<table className={styles.detail__table}>
 				<thead>
 					<tr>

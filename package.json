@@ -25,7 +25,6 @@
 		"react-topbar-progress-indicator": "^4.1.1"
 	},
 	"scripts": {
-    "dev": "npm run lint:fix && npm run start",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "jest --watch --config=jest.config.js",
@@ -71,7 +70,8 @@
 					"testing-library/await-async-query": 0,
 					"@typescript-eslint/no-unsafe-member-access": 0,
 					"@typescript-eslint/no-unsafe-call": 0,
-					"testing-library/prefer-screen-queries": 0
+					"testing-library/prefer-screen-queries": 0,
+					"@typescript-eslint/no-unsafe-assignment": 0
 				}
 			}
 		]

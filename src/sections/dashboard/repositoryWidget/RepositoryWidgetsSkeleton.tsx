@@ -5,7 +5,7 @@ import { ReactComponent as IssueOpened } from "../../../assets/svgs/issue-opened
 import { ReactComponent as Forks } from "../../../assets/svgs/repo-forked.svg";
 import { ReactComponent as Start } from "../../../assets/svgs/star.svg";
 import { ReactComponent as Watchers } from "../../../assets/svgs/watchers.svg";
-import styles from "../repositoryWidget/RepositoryWidget.module.scss";
+import styles from "./RepositoryWidget.module.scss";
 
 function RepositoryWidgetSkeleton() {
 	return (

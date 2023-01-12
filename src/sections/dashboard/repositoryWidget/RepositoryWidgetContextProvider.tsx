@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { config } from "../../../devdash_config";
+import { DomainEvents } from "../../../domain/DomainEvents";
 import { RepositoryWidget } from "../../../domain/RepositoryWidget";
 import { RepositoryWidgetRepository } from "../../../domain/RepositoryWidgetRepository";
 
@@ -32,14 +33,14 @@ export function RepositoryWidgetContextProvider({
 	}, [repository]);
 
 	useEffect(() => {
-		const reloadRepositoryWidget = () => {
+		const reloadRepositoryWidgets = () => {
 			repository.search().then(setRepositoryWidgets);
 		};
 
-		document.addEventListener("repositoryWidgetAdded", reloadRepositoryWidget);
+		document.addEventListener(DomainEvents.repositoryWidgetAdded, reloadRepositoryWidgets);
 
 		return () => {
-			document.removeEventListener("repositoryWidgetAdded", reloadRepositoryWidget);
+			document.removeEventListener(DomainEvents.repositoryWidgetAdded, reloadRepositoryWidgets);
 		};
 	}, [repository]);
 

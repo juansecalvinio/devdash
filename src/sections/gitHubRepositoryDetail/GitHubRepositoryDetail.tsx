@@ -28,7 +28,7 @@ export function GitHubRepositoryDetail({
 	}
 
 	return (
-		<section className={styles.repository__detail}>
+		<section className={styles["repository-detail"]}>
 			<header className={styles.header}>
 				<a href={repositoryData.url} target="_blank" rel="noreferrer">
 					<h2 className={styles.header__title}>
@@ -38,6 +38,7 @@ export function GitHubRepositoryDetail({
 				{repositoryData.private ? <Lock /> : <Unlock />}
 			</header>
 
+			<p>{3 / 0}</p>
 			<p>{repositoryData.description}</p>
 
 			<h3>Repository stats</h3>
@@ -64,10 +65,11 @@ export function GitHubRepositoryDetail({
 			</table>
 
 			<h3>Workflow runs status</h3>
+
 			{repositoryData.workflowRunsStatus.length > 0 ? (
 				<>
 					<p>
-						⏱️Last workflow run:
+						⏱️Last workflow run:{" "}
 						{repositoryData.workflowRunsStatus[0].createdAt.toLocaleDateString("es-ES")}
 					</p>
 					<table className={styles.detail__table}>
