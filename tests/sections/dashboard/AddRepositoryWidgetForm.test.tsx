@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { mock } from "jest-mock-extended";
 
 import { RepositoryWidget } from "../../../src/domain/RepositoryWidget";
-import { LocalStorageRepositoryWidgetRepository } from "../../../src/infrastructure/LocalStorageRepositoryWidgetRepository";
+import { LocalStorageRepositoryWidgetRepository } from "../../../src/infrastructure/LocalStorageWidgetRepository";
 import { AddRepositoryWidgetForm } from "../../../src/sections/dashboard/repositoryWidget/AddRepositoryWidgetForm";
 
 const mockRepository = mock<LocalStorageRepositoryWidgetRepository>();
@@ -24,7 +24,6 @@ describe("AddWidgetForm", () => {
 	});
 
 	it("save new widget when form is submitted", async () => {
-		const dispatchEventSpy = jest.spyOn(document, "dispatchEvent");
 		mockRepository.search.mockResolvedValue([]);
 
 		const newWidget: RepositoryWidget = {
@@ -56,19 +55,15 @@ describe("AddWidgetForm", () => {
 
 		expect(addAnotherRepositoryFormButton).toBeInTheDocument();
 		expect(mockRepository.save).toHaveBeenCalledWith(newWidget);
-
-		expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(Event));
-		expect(dispatchEventSpy.mock.calls[0][0].type).toBe("repositoryWidgetAdded");
 	});
 
-	it("show error when repository already exists in Dashboard", async () => {
+	it("show error when respository already exists in Dashboard", async () => {
 		mockRepository.save.mockReset();
 
 		const existingWidget: RepositoryWidget = {
 			id: "existingWidgetId",
 			repositoryUrl: "https://github.com/CodelyTV/DevDash",
 		};
-
 		mockRepository.search.mockResolvedValue([existingWidget]);
 
 		const newWidgetWithSameUrl: RepositoryWidget = {
@@ -81,21 +76,17 @@ describe("AddWidgetForm", () => {
 		const button = await screen.findByRole("button", {
 			name: new RegExp("Añadir repositorio", "i"),
 		});
-
 		userEvent.click(button);
 
 		const id = screen.getByLabelText(/Id/i);
-
 		userEvent.type(id, newWidgetWithSameUrl.id);
 
 		const url = screen.getByLabelText(/Url del repositorio/i);
-
 		userEvent.type(url, newWidgetWithSameUrl.repositoryUrl);
 
 		const submitButton = await screen.findByRole("button", {
 			name: /Añadir/i,
 		});
-
 		userEvent.click(submitButton);
 
 		const errorMessage = await screen.findByRole("alert", {

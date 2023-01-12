@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
-import TopBarPogress from "react-topbar-progress-indicator";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import TopBarProgress from "react-topbar-progress-indicator";
 
-TopBarPogress.config({
+TopBarProgress.config({
 	barColors: {
 		"0": "#fff",
 		"1.0": "#3cff64",
@@ -10,7 +10,7 @@ TopBarPogress.config({
 	shadowBlur: 5,
 });
 
-export function TopBarProgressByLocation() {
+const TopBarProgressByLocation = () => {
 	const [progress, setProgress] = useState(false);
 	const [previousLocation, setPreviousLocation] = useState("");
 	const location = useLocation();
@@ -18,26 +18,22 @@ export function TopBarProgressByLocation() {
 	useEffect(() => {
 		setPreviousLocation(location.pathname);
 		setProgress(true);
-		preventInfiniteProgressBar();
+		const hasClickedOnALinkToTheCurrentPage = location.pathname === previousLocation;
+		if (hasClickedOnALinkToTheCurrentPage) {
+			setPreviousLocation("");
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [location]);
 
 	useEffect(() => {
 		setProgress(false);
 	}, [previousLocation]);
 
-	function preventInfiniteProgressBar() {
-		const hasClickedOnALinkToTheCurrentPage = location.pathname === previousLocation;
-
-		if (hasClickedOnALinkToTheCurrentPage) {
-			setPreviousLocation("");
-		}
-	}
-
 	if (!progress) {
 		return <></>;
 	}
 
-	return <TopBarPogress />;
-}
+	return <TopBarProgress />;
+};
 
 export default TopBarProgressByLocation;

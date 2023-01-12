@@ -8,7 +8,6 @@ import { GitHubRepositoryDetail } from "./GitHubRepositoryDetail";
 const gitHubRepositoryRepository = new GitHubApiGitHubRepositoryRepository(
 	config.github_access_token
 );
-
 const gitHubRepositoryPullRequestRepository = new GitHubApiGitHubRepositoryPullRequestRepository(
 	config.github_access_token
 );

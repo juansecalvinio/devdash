@@ -18,11 +18,11 @@ export class GitHubApiGitHubRepositoryPullRequestRepository
 		return fetch(url, { headers: { Authorization: `Bearer ${this.personalAccessToken}` } })
 			.then<PullRequest[]>((response) => response.json())
 			.then((response) => {
-				return response.map((pullRequest) => ({
-					id: pullRequest.id,
-					title: pullRequest.title,
-					url: pullRequest.html_url,
-					createdAt: new Date(pullRequest.created_at),
+				return response.map((pr) => ({
+					id: pr.id,
+					title: pr.title,
+					url: pr.html_url,
+					createdAt: new Date(pr.created_at),
 				}));
 			});
 	}

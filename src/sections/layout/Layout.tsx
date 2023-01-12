@@ -1,18 +1,9 @@
 import { Link, Outlet } from "react-router-dom";
-import TopBarPogress from "react-topbar-progress-indicator";
 
 import { ReactComponent as Brand } from "./brand.svg";
 import { ErrorBoundary } from "./ErrorBoundary";
 import styles from "./Layout.module.scss";
 import TopBarProgressByLocation from "./TopBarProgressByLocation";
-
-TopBarPogress.config({
-	barColors: {
-		"0": "#fff",
-		"1.0": "#3cff64",
-	},
-	shadowBlur: 5,
-});
 
 export function Layout() {
 	return (
@@ -20,7 +11,9 @@ export function Layout() {
 			<TopBarProgressByLocation />
 			<header className={styles.header}>
 				<section className={styles.header__container}>
-					<Brand />
+					<a href="https://codely.com">
+						<Brand />
+					</a>
 					<Link to={`/`}>
 						<h1 className={styles.app__brand}>DevDash_</h1>
 					</Link>
